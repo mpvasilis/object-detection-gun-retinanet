@@ -1,24 +1,43 @@
 # import the necessary packages
-from config import object_detection_retinanet_config as config
 from bs4 import BeautifulSoup
 from imutils import paths
 import argparse
 import random
 import os
+# Set the dataset base path here
+BASE_PATH = "./dataset"
+
+# build the path to the annotations and input images
+ANNOT_PATH = os.path.sep.join([BASE_PATH, 'annotations'])
+IMAGES_PATH = os.path.sep.join([BASE_PATH, 'images'])
+
+# degine the training/testing split
+# If you have only training dataset then put here TRAIN_TEST_SPLIT = 1
+TRAIN_TEST_SPLIT = 0.80
+
+#  build the path to the output training and test .csv files
+TRAIN_CSV = os.path.sep.join([BASE_PATH, 'train.csv'])
+TEST_CSV = os.path.sep.join([BASE_PATH, 'test.csv'])
+
+# build the path to the output classes CSV files
+CLASSES_CSV = os.path.sep.join([BASE_PATH, 'classes.csv'])
+
+# build the path to the output predictions dir
+OUTPUT_DIR = os.path.sep.join([BASE_PATH, 'predictions'])
 
 # Construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-a", "--annotations", default=config.ANNOT_PATH,
+ap.add_argument("-a", "--annotations", default=ANNOT_PATH,
     help='path to annotations')
-ap.add_argument("-i", "--images", default=config.IMAGES_PATH,
+ap.add_argument("-i", "--images", default=IMAGES_PATH,
 	help="path to images")
-ap.add_argument("-t", "--train", default=config.TRAIN_CSV,
+ap.add_argument("-t", "--train", default=TRAIN_CSV,
 	help="path to output training CSV file")
-ap.add_argument("-e", "--test", default=config.TEST_CSV,
+ap.add_argument("-e", "--test", default=TEST_CSV,
 	help="path to output test CSV file")
-ap.add_argument("-c", "--classes", default=config.CLASSES_CSV,
+ap.add_argument("-c", "--classes", default=CLASSES_CSV,
 	help="path to output classes CSV file")
-ap.add_argument("-s", "--split", type=float, default=config.TRAIN_TEST_SPLIT,
+ap.add_argument("-s", "--split", type=float, default=TRAIN_TEST_SPLIT,
 	help="train and test split")
 args = vars(ap.parse_args())
 
